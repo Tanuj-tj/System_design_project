@@ -56,11 +56,31 @@ class TicTacToeGame:
 
         return "tie"
     
-    def is_there_winner(self, row, column, piece_type):
-        row_match = all(self.game_board.board[row][i] == piece_type for i in range(self.game_board.size))
-        column_match = all(self.game_board.board[i][column] == piece_type for i in range(self.game_board.size))
-        diagonal_match = all(self.game_board.board[i][i] == piece_type for i in range(self.game_board.size))
-        anti_diagonal_match = all(self.game_board.board[i][self.game_board.size - 1 - i] == piece_type for i in range(self.game_board.size))
+    def is_there_winner(self,row, column, piece_type):
+        row_match = True
+        column_match = True
+        diagonal_match = True
+        anti_diagonal_match = True
+
+        # Check in the row
+        for i in range(self.game_board.size):
+            if self.game_board.board[row][i] is None or self.game_board.board[row][i].piece_type != piece_type:
+                row_match = False
+
+        # Check in the column
+        for i in range(self.game_board.size):
+            if self.game_board.board[i][column] is None or self.game_board.board[i][column].piece_type != piece_type:
+                column_match = False
+
+        # Check diagonals
+        for i in range(self.game_board.size):
+            if self.game_board.board[i][i] is None or self.game_board.board[i][i].piece_type != piece_type:
+                diagonal_match = False
+
+        # Check anti-diagonals
+        for i, j in zip(range(self.game_board.size), range(self.game_board.size - 1, -1, -1)):
+            if self.game_board.board[i][j] is None or self.game_board.board[i][j].piece_type != piece_type:
+                anti_diagonal_match = False
 
         return row_match or column_match or diagonal_match or anti_diagonal_match
 
